@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Chronographe LÀ</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #f7f5f0; display: flex; align-items: center; justify-content: center; min-height: 100vh; font-family: 'EB Garamond', Georgia, serif; }
+.carte { background: #ffffff; border: 0.5px solid #d8d6d0; border-radius: 12px; width: 300px; height: 450px; padding: 2rem 2.25rem; display: flex; flex-direction: column; justify-content: space-between; }
+.p-time { font-size: 10px; letter-spacing: 0.14em; color: #aaa; text-transform: uppercase; }
+.middle { flex: 1; display: flex; align-items: center; }
+.p-phrase { font-size: 19px; font-style: italic; line-height: 1.85; color: #1a1a1a; text-align: left; }
+.bottom { display: flex; align-items: center; gap: 8px; }
+.logo-wrap { position: relative; width: 24px; height: 24px; flex-shrink: 0; }
+.logo-circle { width: 100%; height: 100%; border-radius: 50%; border: 0.5px solid #ccc; }
+.logo-dot { position: absolute; top: 50%; left: 50%; width: 5px; height: 5px; border-radius: 50%; background: #1a1a1a; transform: translate(-50%,-50%); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:translate(-50%,-50%) scale(1)} 50%{opacity:0.2;transform:translate(-50%,-50%) scale(0.5)} }
+.logo-name { font-size: 9px; letter-spacing: 0.2em; color: #bbb; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div class="carte">
+  <div><span class="p-time" id="d-time">—</span></div>
+  <div class="middle"><span class="p-phrase" id="d-phrase">—</span></div>
+  <div class="bottom">
+    <div class="logo-wrap">
+      <div class="logo-circle"></div>
+      <div class="logo-dot"></div>
+    </div>
+    <span class="logo-name">Éditions LÀ</span>
+  </div>
+</div>
+<script>
+const tranches = [
+  { heures:[3,4,5],          phrases:["Rien ne s'ajoute...","L'instant est entier...","Ce qui est suffit..."] },
+  { heures:[6,7,8],           phrases:["La ligne s'ouvre...","Le bloc se fissure...","L'unité se fragmente..."] },
+  { heures:[9,10,11],         phrases:["Le regard s'expose...","Le plus proche est là...","L'apparition survient..."] },
+  { heures:[12,13,14],        phrases:["La correction s'efface...","Le mouvement circule...","L'ouverture demeure..."] },
+  { heures:[15,16,17],        phrases:["Le simple déborde...","Rien n'est petit...","L'ordinaire se dépose..."] },
+  { heures:[18,19,20],        phrases:["La mesure s'efface...","La possession s'annule...","La vie traverse..."] },
+  { heures:[21,22,23,0,1,2],  phrases:["La distance s'évanouit...","Le centre se décale...","Tout est déjà complet...","Le vide apparaît...","Les bords s'effacent...","L'ailleurs disparaît..."] },
+];
+const B = ["...au centre de l'arène...","...dans la fêlure...","...sans aucun récit...","...face au vide...","...par-delà les formes...","...au plus proche..."];
+const C = ["...LÀ.","...en cet instant.","...en transparence.","...sans saisie.","...tout simplement.","...tel quel.","...sans retour.","...dans le silence.","...à l'infini.","...et le voir est total."];
+const D = {0:"...et cela suffit.",1:"...absolument.",2:"...comme un souffle.",3:"...sans personne pour l'écrire.",4:"...dans une clarté nue.",5:"...en traversant le bruit.",6:"...sans laisser de trace."};
+const jours = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
+function getA(h) { for(const t of tranches){ const i=t.heures.indexOf(h); if(i!==-1) return t.phrases[i]; } return "..."; }
+function display() {
+  const n = new Date();
+  const h=n.getHours(), m=n.getMinutes(), day=n.getDay();
+  const hh=String(h).padStart(2,'0'), mm=String(m).padStart(2,'0');
+  document.getElementById('d-time').textContent = jours[day] + " · " + hh + "h" + mm;
+  document.getElementById('d-phrase').textContent = getA(h)+" "+B[Math.floor(m/10)]+" "+C[m%10]+" "+D[day%7];
+}
+display();
+setInterval(display, 10000);
+</script>
+</body>
+</html>
