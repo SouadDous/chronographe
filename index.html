@@ -31,19 +31,14 @@ body {
   transition: background 1.4s ease, border-color 1.4s ease;
 }
 .carte > * { position:relative; z-index:1; }
-/* Grain de papier très léger : la matière d'un objet imprimé */
 .carte::before {
   content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   opacity:0.05; mix-blend-mode:multiply;
 }
-/* Teinte nuit très subtile (21h–6h). Pour la retirer : supprimer ce bloc + la ligne classList.toggle('nuit'…). */
 .carte.nuit { background:#f4f2ee; border-color:#e4e2dc; }
 
-/* ---- LE HAUT VIVANT : le battement, le jour/heure, le sceau ---- */
 .top { display:flex; flex-direction:column; align-items:center; }
-
-/* Le battement (style de la version précédente, agrandi, avec sa place) */
 .beacon { position:relative; width:34px; height:34px; margin:0 auto 1.15rem; }
 .beacon-ring { position:absolute; inset:0; border-radius:50%; border:0.5px solid #cbcbcb; }
 .beacon-dot {
@@ -55,7 +50,6 @@ body {
   0%,100% { opacity:1;   transform:translate(-50%,-50%) scale(1); }
   50%     { opacity:0.2; transform:translate(-50%,-50%) scale(0.5); }
 }
-
 .time {
   font-size:clamp(12.5px,3.6vw,14px);
   letter-spacing:0.16em; text-transform:uppercase; color:#4a4a4a;
@@ -68,7 +62,6 @@ body {
   transition: opacity 0.9s ease 0.2s;
 }
 
-/* ---- LA PHRASE : tercet qui ondule lentement ---- */
 .middle { flex:1; display:flex; align-items:center; justify-content:center; padding:1.6rem 0; }
 .phrase {
   font-size:clamp(18px,5vw,21px); font-style:italic;
@@ -81,7 +74,6 @@ body {
   50%     { transform:translateY(2px); }
 }
 
-/* ---- LA SIGNATURE DE LA MAISON : discrète, respirant doucement ---- */
 .signature {
   font-size:clamp(8px,2.4vw,9px);
   letter-spacing:0.24em; text-transform:uppercase; color:#c2c0bb;
@@ -110,17 +102,17 @@ const jours = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"
 
 /* Cylindre A — L'Action (24 heures, calées sur les sept seuils du livre) */
 const A = {
-  0:"Le vide apparaît", 1:"Les bords s'effacent", 2:"L'ailleurs disparaît",
-  3:"Rien ne s'ajoute", 4:"L'instant est entier", 5:"Ce qui est suffit",
+  0:"Le fond apparaît", 1:"Les bords s'effacent", 2:"L'ailleurs disparaît",
+  3:"Rien ne s'ajoute", 4:"Le présent est entier", 5:"Ce qui est suffit",
   6:"La ligne s'ouvre", 7:"Le bloc se fissure", 8:"L'unité se fragmente",
-  9:"Le regard s'expose", 10:"Le plus proche est là", 11:"L'apparition survient",
+  9:"Le regard s'expose", 10:"Le proche se dévoile", 11:"L'apparition survient",
   12:"La correction s'efface", 13:"Le mouvement circule", 14:"L'ouverture demeure",
   15:"Le simple déborde", 16:"Rien n'est petit", 17:"L'ordinaire se dépose",
   18:"La mesure s'efface", 19:"La possession s'annule", 20:"La vie traverse",
-  21:"La distance s'évanouit", 22:"Le centre se décale", 23:"Tout est déjà complet"
+  21:"La distance s'évanouit", 22:"Le centre se décale", 23:"Rien ne manque"
 };
 /* Cylindre B — Le Champ (dizaines de minutes) */
-const B = ["au centre de l'arène","dans la fêlure","sans aucun récit","face au vide","par-delà les formes","au plus proche"];
+const B = ["à même le réel","dans la fêlure","délié du récit","face au vide","par-delà les formes","au plus près"];
 /* Cylindre C — L'Ancrage (unités de minutes) */
 const C = ["là.","en cet instant.","en transparence.","sans saisie.","tout simplement.","tel quel.","sans retour.","dans le silence.","à l'infini.","et le voir est total."];
 /* Cylindre E — La Signature (sceau numérologique de la date) */
@@ -171,7 +163,6 @@ function render(){
   }, 650);
 }
 
-/* Synchronisation exacte sur le changement de minute */
 function tick(){
   const now = new Date();
   const ms = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
