@@ -4,58 +4,182 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Le Chronographe LÀ</title>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<!--
+  Le Chronographe LÀ — © 2026 Souad Dous / Éditions LÀ. Tous droits réservés.
+  Œuvre générative protégée par le droit d'auteur. Toute reproduction ou
+  réutilisation, même partielle (textes, fragments, code, design), est
+  interdite sans autorisation écrite. contact@editionsla.com
+-->
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: transparent; display: flex; align-items: center; justify-content: center; min-height: 100vh; font-family: 'EB Garamond', Georgia, serif; }
-.carte { background: #ffffff; border: 0.5px solid #d8d6d0; border-radius: 12px; width: 300px; height: 450px; padding: 2rem 2.25rem; display: flex; flex-direction: column; justify-content: space-between; }
-.p-time { font-size: 10px; letter-spacing: 0.14em; color: #aaa; text-transform: uppercase; }
-.middle { flex: 1; display: flex; align-items: center; }
-.p-phrase { font-size: 19px; font-style: italic; line-height: 1.85; color: #1a1a1a; text-align: left; }
-.bottom { display: flex; align-items: center; gap: 8px; }
-.logo-wrap { position: relative; width: 24px; height: 24px; flex-shrink: 0; }
-.logo-circle { width: 100%; height: 100%; border-radius: 50%; border: 0.5px solid #ccc; }
-.logo-dot { position: absolute; top: 50%; left: 50%; width: 5px; height: 5px; border-radius: 50%; background: #1a1a1a; transform: translate(-50%,-50%); animation: pulse 2s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{opacity:1;transform:translate(-50%,-50%) scale(1)} 50%{opacity:0.2;transform:translate(-50%,-50%) scale(0.5)} }
-.logo-name { font-size: 9px; letter-spacing: 0.2em; color: #bbb; text-transform: uppercase; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: transparent;
+  display:flex; align-items:center; justify-content:center;
+  min-height:100vh; padding:1.5rem;
+  font-family:'EB Garamond', Georgia, serif;
+}
+
+.carte {
+  position:relative; overflow:hidden; text-align:center;
+  background:#fffefb;
+  border:0.5px solid #d8d6d0; border-radius:16px;
+  width:min(330px, 90vw); min-height:min(500px, 84vh);
+  padding:clamp(2.1rem,6vw,2.9rem);
+  display:flex; flex-direction:column;
+  box-shadow:0 28px 64px -24px rgba(0,0,0,0.18), 0 6px 16px rgba(0,0,0,0.03);
+  transition: background 1.4s ease, border-color 1.4s ease;
+}
+.carte > * { position:relative; z-index:1; }
+/* Grain de papier très léger : la matière d'un objet imprimé */
+.carte::before {
+  content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:0.05; mix-blend-mode:multiply;
+}
+/* Teinte nuit très subtile (21h–6h). Pour la retirer : supprimer ce bloc + la ligne classList.toggle('nuit'…). */
+.carte.nuit { background:#f4f2ee; border-color:#e4e2dc; }
+
+/* ---- LE HAUT VIVANT : le battement, le jour/heure, le sceau ---- */
+.top { display:flex; flex-direction:column; align-items:center; }
+
+/* Le battement (style de la version précédente, agrandi, avec sa place) */
+.beacon { position:relative; width:34px; height:34px; margin:0 auto 1.15rem; }
+.beacon-ring { position:absolute; inset:0; border-radius:50%; border:0.5px solid #cbcbcb; }
+.beacon-dot {
+  position:absolute; top:50%; left:50%; width:9px; height:9px; border-radius:50%;
+  background:#161616; transform:translate(-50%,-50%);
+  animation:pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:1;   transform:translate(-50%,-50%) scale(1); }
+  50%     { opacity:0.2; transform:translate(-50%,-50%) scale(0.5); }
+}
+
+.time {
+  font-size:clamp(12.5px,3.6vw,14px);
+  letter-spacing:0.16em; text-transform:uppercase; color:#4a4a4a;
+  transition: opacity 0.7s ease;
+}
+.seal {
+  margin-top:0.65rem;
+  font-size:clamp(8.5px,2.5vw,10px);
+  letter-spacing:0.32em; text-transform:uppercase; color:#9a9a96;
+  transition: opacity 0.9s ease 0.2s;
+}
+
+/* ---- LA PHRASE : tercet qui ondule lentement ---- */
+.middle { flex:1; display:flex; align-items:center; justify-content:center; padding:1.6rem 0; }
+.phrase {
+  font-size:clamp(18px,5vw,21px); font-style:italic;
+  line-height:2.1; color:#161616;
+  transition: opacity 0.7s ease;
+}
+.phrase .ln { display:block; animation:vague 8s ease-in-out infinite; }
+@keyframes vague {
+  0%,100% { transform:translateY(-2px); }
+  50%     { transform:translateY(2px); }
+}
+
+/* ---- LA SIGNATURE DE LA MAISON : discrète, respirant doucement ---- */
+.signature {
+  font-size:clamp(8px,2.4vw,9px);
+  letter-spacing:0.24em; text-transform:uppercase; color:#c2c0bb;
+  animation:respire 5s ease-in-out infinite;
+}
+@keyframes respire { 0%,100% { opacity:0.4; } 50% { opacity:0.8; } }
 </style>
 </head>
 <body>
-<div class="carte">
-  <div><span class="p-time" id="d-time">—</span></div>
-  <div class="middle"><span class="p-phrase" id="d-phrase">—</span></div>
-  <div class="bottom">
-    <div class="logo-wrap">
-      <div class="logo-circle"></div>
-      <div class="logo-dot"></div>
-    </div>
-    <span class="logo-name">Éditions LÀ</span>
+<div class="carte" id="carte">
+  <div class="top">
+    <div class="beacon"><span class="beacon-ring"></span><span class="beacon-dot"></span></div>
+    <div class="time" id="d-time">—</div>
+    <div class="seal" id="d-seal">—</div>
   </div>
+  <div class="middle"><div class="phrase" id="d-phrase">—</div></div>
+  <div class="signature">Éditions LÀ</div>
 </div>
+
 <script>
-const tranches = [
-  { heures:[3,4,5],          phrases:["Rien ne s'ajoute","L'instant est entier","Ce qui est suffit"] },
-  { heures:[6,7,8],           phrases:["La ligne s'ouvre","Le bloc se fissure","L'unité se fragmente"] },
-  { heures:[9,10,11],         phrases:["Le regard s'expose","Le plus proche est là","L'apparition survient"] },
-  { heures:[12,13,14],        phrases:["La correction s'efface","Le mouvement circule","L'ouverture demeure"] },
-  { heures:[15,16,17],        phrases:["Le simple déborde","Rien n'est petit","L'ordinaire se dépose"] },
-  { heures:[18,19,20],        phrases:["La mesure s'efface","La possession s'annule","La vie traverse"] },
-  { heures:[21,22,23,0,1,2],  phrases:["La distance s'évanouit","Le centre se décale","Tout est déjà complet","Le vide apparaît","Les bords s'effacent","L'ailleurs disparaît"] },
-];
-const B = ["au centre de l'arène","dans la félure","sans aucun récit","face au vide","par-delà les formes","au plus proche"];
-const C = ["là.","en cet instant.","en transparence.","sans saisie.","tout simplement.","tel quel.","sans retour.","dans le silence.","à l'infini.","et le voir est total."];
-const D = {0:"Et cela suffit.",1:"Absolument.",2:"Comme un souffle.",3:"Sans personne pour l'écrire.",4:"Dans une clarté nue.",5:"En traversant le bruit.",6:"Sans laisser de trace."};
+/* ============================================================
+   Le Chronographe LÀ — © 2026 Souad Dous / Éditions LÀ
+   ============================================================ */
+
 const jours = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
-function getA(h) { for(const t of tranches){ const i=t.heures.indexOf(h); if(i!==-1) return t.phrases[i]; } return ""; }
-function display() {
-  const n = new Date();
-  const h=n.getHours(), m=n.getMinutes(), day=n.getDay();
-  const hh=String(h).padStart(2,'0'), mm=String(m).padStart(2,'0');
-  document.getElementById('d-time').textContent = jours[day] + " · " + hh + "h" + mm;
-  document.getElementById('d-phrase').textContent = getA(h)+"... "+B[Math.floor(m/10)]+"... "+C[m%10]+" "+D[day%7];
+
+/* Cylindre A — L'Action (24 heures, calées sur les sept seuils du livre) */
+const A = {
+  0:"Le vide apparaît", 1:"Les bords s'effacent", 2:"L'ailleurs disparaît",
+  3:"Rien ne s'ajoute", 4:"L'instant est entier", 5:"Ce qui est suffit",
+  6:"La ligne s'ouvre", 7:"Le bloc se fissure", 8:"L'unité se fragmente",
+  9:"Le regard s'expose", 10:"Le plus proche est là", 11:"L'apparition survient",
+  12:"La correction s'efface", 13:"Le mouvement circule", 14:"L'ouverture demeure",
+  15:"Le simple déborde", 16:"Rien n'est petit", 17:"L'ordinaire se dépose",
+  18:"La mesure s'efface", 19:"La possession s'annule", 20:"La vie traverse",
+  21:"La distance s'évanouit", 22:"Le centre se décale", 23:"Tout est déjà complet"
+};
+/* Cylindre B — Le Champ (dizaines de minutes) */
+const B = ["au centre de l'arène","dans la fêlure","sans aucun récit","face au vide","par-delà les formes","au plus proche"];
+/* Cylindre C — L'Ancrage (unités de minutes) */
+const C = ["là.","en cet instant.","en transparence.","sans saisie.","tout simplement.","tel quel.","sans retour.","dans le silence.","à l'infini.","et le voir est total."];
+/* Cylindre E — La Signature (sceau numérologique de la date) */
+const E = {1:"L'UNITÉ",2:"LE MIROIR",3:"LE SOUFFLE",4:"L'ANCRAGE",5:"LE PASSAGE",6:"L'ACCORD",7:"LE SEUIL",8:"L'ÉCLAT",9:"LE TOUT"};
+
+const pad = n => String(n).padStart(2,'0');
+const digits = n => String(n).split('').reduce((s,d)=> s + (+d), 0);
+function signature(d){
+  let t = digits(d.getDate()) + digits(d.getMonth()+1) + digits(d.getFullYear())
+        + digits(d.getHours()) + digits(d.getMinutes());
+  while(t > 9) t = digits(t);
+  return t === 0 ? 9 : t;
 }
-display();
-setInterval(display, 10000);
+
+const elTime = document.getElementById('d-time');
+const elPhrase = document.getElementById('d-phrase');
+const elSeal = document.getElementById('d-seal');
+const elCarte = document.getElementById('carte');
+let first = true;
+
+function compose(){
+  const n = new Date();
+  const h = n.getHours(), m = n.getMinutes(), day = n.getDay();
+  return {
+    time:  jours[day] + " · " + pad(h) + "h" + pad(m),
+    lines: [ A[h] + "…", B[Math.floor(m/10)] + "…", C[m % 10] ],
+    seal:  E[signature(n)],
+    night: (h >= 21 || h < 6)
+  };
+}
+
+function apply(d){
+  elTime.textContent = d.time;
+  elPhrase.innerHTML = d.lines
+    .map((l,i)=>`<span class="ln" style="animation-delay:${(i*1.6).toFixed(1)}s">${l}</span>`)
+    .join("");
+  elSeal.textContent = d.seal;
+  elCarte.classList.toggle('nuit', d.night);
+}
+
+function render(){
+  const d = compose();
+  if(first){ apply(d); first = false; return; }
+  elTime.style.opacity = elPhrase.style.opacity = elSeal.style.opacity = 0;
+  setTimeout(() => {
+    apply(d);
+    elTime.style.opacity = elPhrase.style.opacity = elSeal.style.opacity = 1;
+  }, 650);
+}
+
+/* Synchronisation exacte sur le changement de minute */
+function tick(){
+  const now = new Date();
+  const ms = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+  setTimeout(() => { render(); tick(); }, ms);
+}
+
+render();
+tick();
 </script>
 </body>
 </html>
