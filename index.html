@@ -11,6 +11,14 @@
   interdite sans autorisation écrite. contact@editionsla.com
 -->
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<!-- Ajout à l'écran d'accueil (mobile) -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#f1efea">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Chronographe LÀ">
+<link rel="apple-touch-icon" href="icon-180.png">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -19,6 +27,9 @@ body {
   min-height:100vh; padding:1.5rem;
   font-family:'EB Garamond', Georgia, serif;
 }
+/* En application installée (écran d'accueil), un fond pâle plein écran ;
+   dans l'iframe du site, le fond reste transparent. */
+@media (display-mode: standalone) { body { background:#f1efea; } }
 
 /* ---- LA CARTE : le désert de sel à l'intérieur, voilé pour la lisibilité ---- */
 .carte {
@@ -186,6 +197,7 @@ function tick(){
   const ms = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
   setTimeout(() => { render(); tick(); }, ms);
 }
+if (navigator.standalone) document.body.style.background = "#f1efea";
 render();
 tick();
 </script>
