@@ -200,6 +200,11 @@ function tick(){
 if (navigator.standalone) document.body.style.background = "#f1efea";
 render();
 tick();
+
+/* Mode hors-connexion : garde le Chronographe disponible sans réseau */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
 </script>
 </body>
 </html>
